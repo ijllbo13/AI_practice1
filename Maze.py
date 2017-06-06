@@ -177,20 +177,24 @@ def search_from(maze, start_row, start_column, tree):
         move(maze, start_row - 1, start_column, 'UP', tree)
 
     else:
+        listTemp = []
         # RIGHT
-        moveIterative(maze, start_row, start_column + 1, 'RIGHT', tree)
+        moveIterative(maze, start_row, start_column + 1, 'RIGHT', tree, listTemp)
         # LEFT
-        moveIterative(maze, start_row, start_column - 1, 'LEFT', tree)
+        moveIterative(maze, start_row, start_column - 1, 'LEFT', tree, listTemp)
         # DOWN
-        moveIterative(maze, start_row + 1, start_column, 'DOWN', tree)
+        moveIterative(maze, start_row + 1, start_column, 'DOWN', tree, listTemp)
         # UP
-        moveIterative(maze, start_row - 1, start_column, 'UP', tree)
+        moveIterative(maze, start_row - 1, start_column, 'UP', tree, listTemp)
+
+        listTemp = []  
 
 
     tree = ListT[0] # Pone el puntero en el primer nodo del siguiente nivel
     search_from(maze, ListQ[0], ListQ[1], tree) # Vuelve a comenzar la búsqueda por nivel
 
 def move(maze, start_row, start_column, dir, tree):
+
     if maze[start_row][start_column] == CLEAR:
         maze.update_position(start_row, start_column, VISITED)
         ListQ.append(start_row)
@@ -203,18 +207,17 @@ def move(maze, start_row, start_column, dir, tree):
         print(tree.name)
         tree = tree.prev()
 
-def moveIterative(maze, start_row, start_column, dir, tree):
-    ListTemp = []
+def moveIterative(maze, start_row, start_column, dir, tree, listTemp):
     if maze[start_row][start_column] == CLEAR:
         maze.update_position(start_row, start_column, VISITED)
-        ListQ.append(start_row)
-        ListQ.append(start_column)
+        ListQ.insert(0, start_column)
+        ListQ.insert(0, start_row)
         tree = tree.add()  # add a node to the partens
         tree.name = dir  # name the node
         tree.row = start_row
         tree.col = start_column
-        ListTemp.insert(0, tree)
-        ListT.insert(0, ListTemp.pop())
+        listTemp.insert(0, tree)
+        ListT.insert(0, listTemp.pop())
         print(tree.name)
         tree = tree.prev()
 
