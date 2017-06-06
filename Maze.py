@@ -48,9 +48,10 @@ class Maze:
             for x in range(self.columns_in_maze):
                 if self.maze_list[y][x] == OBSTACLE:
                     self.draw_centered_box(x + self.x_translate,
-                        - y + self.y_translate, 'orange')
+                        - y + self.y_translate, 'lightblue')
         self.t.color('black')
         self.t.fillcolor('green')
+        self.t.pencolor('brown')
 
 
     def draw_centered_box(self, x, y, color):
