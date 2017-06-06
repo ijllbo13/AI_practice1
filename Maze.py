@@ -51,7 +51,6 @@ class Maze:
                         - y + self.y_translate, 'lightblue')
         self.t.color('black')
         self.t.fillcolor('green')
-        self.t.pencolor('brown')
 
 
     def draw_centered_box(self, x, y, color):
@@ -176,7 +175,11 @@ def search_from(maze, start_row, start_column, tree):
 
     listTemp = []  
 
-    tree = ListT[0] # Pone el puntero en el primer nodo del siguiente nivel
+    try:
+        tree = ListT[0] # Pone el puntero en el primer nodo del siguiente nivel
+    except:
+        raise Exception('No exit in maze.')
+
     search_from(maze, ListQ[0], ListQ[1], tree) # Vuelve a comenzar la búsqueda por nivel
 
 
