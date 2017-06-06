@@ -43,7 +43,7 @@ class Maze:
 
 
     def draw_maze(self):
-        self.t.speed(1000)
+        self.t.speed(2000)
         for y in range(self.rows_in_maze):
             for x in range(self.columns_in_maze):
                 if self.maze_list[y][x] == OBSTACLE:
@@ -146,7 +146,7 @@ def best_route(maze, start_row, start_column, tree):
 ## Busca por anchura (por niveles)
 
 def search_from(maze, start_row, start_column, tree):
-
+    print('search')
     ## Verifica si es una salida
     if maze.is_exit(start_row, start_column):
         print("is exit")
@@ -166,58 +166,35 @@ def search_from(maze, start_row, start_column, tree):
 
     # RIGHT
     if maze[start_row][start_column + 1] == CLEAR:
-        maze.update_position(start_row, start_column + 1, VISITED)
-        ListQ.append(start_row)
-        ListQ.append(start_column + 1)
-        tree = tree.add()  # se crea un nuevo nodo que se liga al padre
-        tree.name = "RIGHT"
-        tree.row = start_row
-        tree.col = start_column + 1
-        ListT.append(tree)
-        print(tree.name)
-        tree = tree.prev() # Regresa el puntero al nodo padre
+        move(maze, start_row, start_column + 1, 'RIGHT', tree)
 
     # LEFT
     if maze[start_row][start_column - 1] == CLEAR:
-        maze.update_position(start_row, start_column - 1, VISITED)
-        ListQ.append(start_row)
-        ListQ.append(start_column - 1)
-        tree = tree.add()  # add a node to the parent
-        tree.name = "LEFT"  # name it
-        tree.row = start_row
-        tree.col = start_column - 1
-        ListT.append(tree)
-        print(tree.name)
-        tree = tree.prev()
+        move(maze, start_row, start_column - 1, 'LEFT', tree)
 
     # DOWN
     if maze[start_row + 1][start_column] == CLEAR:
-        maze.update_position(start_row + 1, start_column, VISITED)
-        ListQ.append(start_row + 1)
-        ListQ.append(start_column)
-        tree = tree.add()  # add a node to the parent
-        tree.name = "DOWN"  # name it
-        tree.row = start_row + 1
-        tree.col = start_column
-        ListT.append(tree)
-        print(tree.name)
-        tree = tree.prev()
+        move(maze, start_row + 1, start_column, 'DOWN', tree)
 
     # UP
     if maze[start_row - 1][start_column] == CLEAR:
-        maze.update_position(start_row - 1, start_column, VISITED)
-        ListQ.append(start_row - 1)
-        ListQ.append(start_column)
-        tree = tree.add()  # add a node to the parent
-        tree.name = "UP"  # name it
-        tree.row = start_row - 1
-        tree.col = start_column
-        ListT.append(tree)
-        print(tree.name)
-        tree = tree.prev()
+        move(maze, start_row - 1, start_column, 'UP', tree)
 
     tree = ListT[0] # Pone el puntero en el primer nodo del siguiente nivel
     search_from(maze, ListQ[0], ListQ[1], tree) # Vuelve a comenzar la búsqueda por nivel
+
+def move(maze, start_row, start_column, dir, tree):
+	maze.update_position(start_row, start_column, VISITED)
+	ListQ.append(start_row)
+	ListQ.append(start_column)
+	tree =  tree.add()  # add a node to the partens
+	tree.name = dir     # name the node
+	tree.row = start_row
+	tree.col = start_column
+	ListT.append(tree)
+	print(tree.name)
+	tree = tree.prev()
+
 
 
 # Maze Creation
