@@ -26,7 +26,7 @@ class SplashScreen(Frame):
         y = (hs/2) - (h/2)
         self.master.geometry('%dx%d+%d+%d' % (w, h, x, y))
         
-        self.master.overrideredirect(True)
+        self.master.overrideredirect(False)
         self.lift()
 
 
@@ -203,6 +203,8 @@ def search_from(maze, start_row, start_column, tree):
 
     search_from(maze, ListQ[0], ListQ[1], tree) # Vuelve a comenzar la búsqueda por nivel
 
+    
+
 
 def move(maze, start_row, start_column, dir, tree, listTemp):
 
@@ -232,7 +234,7 @@ def move(maze, start_row, start_column, dir, tree, listTemp):
 
 
 
-# Maze Creation
+#Splash screen creation
 root = Tk()
 sp = SplashScreen(root)
 sp.config(bg="#3366ff")
@@ -247,7 +249,7 @@ m.config(bg="#3366ff", justify=CENTER, font=("calibri", 16))
 Button(sp, text="Set the turtle free!", bg='green', command=root.destroy).pack(side=BOTTOM, fill=X)
 root.mainloop()
 
-
+# Maze Creation
 my_maze = Maze('maze2.txt')
 my_maze.draw_maze()
 my_maze.update_position(my_maze.start_row, my_maze.start_col)
