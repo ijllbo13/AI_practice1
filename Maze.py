@@ -1,6 +1,7 @@
 import turtle
 
 from node import Node
+from tkinter import *
 
 PART_OF_PATH = 'O'
 TRIED = '.'
@@ -8,6 +9,26 @@ OBSTACLE = '+'
 DEAD_END = '-'
 VISITED = 'x'
 CLEAR = ' '
+
+#Splash screen boiii
+class SplashScreen(Frame):
+    def __init__(self, master=None, width=0.8, height=0.6, useFactor=True):
+        Frame.__init__(self, master)
+        self.pack(side=TOP, fill=BOTH, expand=YES)
+
+        # get screen width and height
+        ws = self.master.winfo_screenwidth()
+        hs = self.master.winfo_screenheight()
+        w = (useFactor and ws*width) or width
+        h = (useFactor and ws*height) or height
+        # calculate position x, y
+        x = (ws/2) - (w/2) 
+        y = (hs/2) - (h/2)
+        self.master.geometry('%dx%d+%d+%d' % (w, h, x, y))
+        
+        self.master.overrideredirect(True)
+        self.lift()
+
 
 class Maze:
     def __init__(self, maze_file_name):
@@ -212,6 +233,20 @@ def move(maze, start_row, start_column, dir, tree, listTemp):
 
 
 # Maze Creation
+root = Tk()
+sp = SplashScreen(root)
+sp.config(bg="#3366ff")
+logo = PhotoImage(file="/home/agalin/Desktop/AI_practice1/treeFiddy.gif")
+
+m2 = Label(sp, image = logo)
+m2.pack(side=TOP, expand=YES)
+
+m = Label(sp, text="Practica 01 \n Agentes que resuelven Problemas mediante Busqueda Tarea\n\nEstefania Jacobo\nJorge Luis Ibarra Borbas\nAndres Galindo")
+m.pack(side=TOP, expand=YES)
+m.config(bg="#3366ff", justify=CENTER, font=("calibri", 16))
+Button(sp, text="Set the turtle free!", bg='green', command=root.destroy).pack(side=BOTTOM, fill=X)
+root.mainloop()
+
 
 my_maze = Maze('maze2.txt')
 my_maze.draw_maze()
@@ -232,3 +267,6 @@ ListT.append(tree)
 my_maze.update_position(tree.row, tree.col, PART_OF_PATH)
 
 search_from(my_maze, ListQ[0], ListQ[1], tree)
+
+#stop it from ending
+k=input("press close to exit")
